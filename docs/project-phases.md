@@ -1000,12 +1000,12 @@ CSV export of assignment data.
 ### Phase 9.4: Audit Log View (US-7.4)
 View assignment status change history.
 
-- [ ] Create `AuditLogResource` or custom Filament page
-- [ ] Display: timestamp, gig name, musician name, old status, new status, reason, changed by
-- [ ] Filter by date range
-- [ ] Filter by gig
-- [ ] Filter by musician
-- [ ] Sort by timestamp descending (default)
+- [x] Create `AuditLogResource` or custom Filament page
+- [x] Display: timestamp, gig name, musician name, old status, new status, reason, changed by
+- [x] Filter by date range
+- [x] Filter by gig
+- [x] Filter by musician
+- [x] Sort by timestamp descending (default)
 
 **Tests:** `tests/Feature/Filament/AuditLogTest.php`
 ```
@@ -1269,7 +1269,7 @@ Security audit tests.
   - [x] Phase 9.1: Print Gig Worksheet
   - [x] Phase 9.2: Export Gigs CSV
   - [x] Phase 9.3: Export Assignments CSV
-  - [ ] Phase 9.4: Audit Log View
+  - [x] Phase 9.4: Audit Log View
   - [ ] Phase 9.5: Admin Dashboard Widgets
 
 **Not Started:**
