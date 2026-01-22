@@ -38,38 +38,63 @@
             </flux:callout>
         @endsession
 
-        {{-- Action buttons --}}
-        @if($assignment->status === App\Enums\AssignmentStatus::Pending)
-            <div class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
-                <flux:heading size="lg" class="mb-4">Respond to Assignment</flux:heading>
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
-                    <form action="{{ route('portal.gigs.accept', $gig) }}" method="POST">
-                        @csrf
-                        <flux:button type="submit" variant="primary" icon="check">
-                            Accept Gig
-                        </flux:button>
-                    </form>
-                    <div class="flex-1">
-                        <form action="{{ route('portal.gigs.decline', $gig) }}" method="POST" class="flex flex-col gap-2 sm:flex-row sm:items-end">
+        {{-- Action buttons (only for upcoming gigs) --}}
+        @if(!$gig->date->isPast())
+            @if($assignment->status === App\Enums\AssignmentStatus::Pending)
+                <div class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
+                    <flux:heading size="lg" class="mb-4">Respond to Assignment</flux:heading>
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                        <form action="{{ route('portal.gigs.accept', $gig) }}" method="POST">
                             @csrf
-                            <div class="flex-1">
-                                <flux:textarea name="reason" placeholder="Reason for declining (optional)" rows="1" class="resize-none" />
-                            </div>
-                            <flux:button type="submit" variant="danger" icon="x-mark">
-                                Decline
+                            <flux:button type="submit" variant="primary" icon="check">
+                                Accept Gig
                             </flux:button>
                         </form>
+                        <div class="flex-1">
+                            <form action="{{ route('portal.gigs.decline', $gig) }}" method="POST" class="flex flex-col gap-2 sm:flex-row sm:items-end">
+                                @csrf
+                                <div class="flex-1">
+                                    <flux:textarea name="reason" placeholder="Reason for declining (optional)" rows="1" class="resize-none" />
+                                </div>
+                                <flux:button type="submit" variant="danger" icon="x-mark">
+                                    Decline
+                                </flux:button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @elseif($assignment->status === App\Enums\AssignmentStatus::Accepted)
-            <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
-                <flux:heading size="lg" class="mb-2">Need to cancel?</flux:heading>
-                <flux:text class="mb-4">If you can no longer make this gig, you can request a sub-out. This feature will be available in a future update.</flux:text>
-                <flux:button variant="ghost" icon="arrow-path" disabled>
-                    Request Sub-out (Coming Soon)
-                </flux:button>
-            </div>
+            @elseif($assignment->status === App\Enums\AssignmentStatus::Accepted)
+                <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
+                    <flux:heading size="lg" class="mb-2">Need to cancel?</flux:heading>
+                    <flux:text class="mb-4">If you can no longer make this gig, you can request a sub-out. An admin will be notified to find a replacement.</flux:text>
+                    <form action="{{ route('portal.gigs.subout', $gig) }}" method="POST" class="space-y-3">
+                        @csrf
+                        <flux:textarea
+                            name="reason"
+                            placeholder="Please explain why you need a sub-out (required)"
+                            rows="2"
+                            required
+                            :invalid="$errors->has('reason')"
+                        />
+                        @error('reason')
+                            <flux:text class="text-red-600 dark:text-red-400">{{ $message }}</flux:text>
+                        @enderror
+                        <flux:button type="submit" variant="ghost" icon="arrow-path">
+                            Request Sub-out
+                        </flux:button>
+                    </form>
+                </div>
+            @elseif($assignment->status === App\Enums\AssignmentStatus::SuboutRequested)
+                <div class="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+                    <flux:heading size="lg" class="mb-2">Sub-out Requested</flux:heading>
+                    <flux:text class="mb-2">Your sub-out request has been submitted. An admin will contact you soon.</flux:text>
+                    @if($assignment->subout_reason)
+                        <flux:text class="text-sm text-zinc-600 dark:text-zinc-400">
+                            <strong>Reason:</strong> {{ $assignment->subout_reason }}
+                        </flux:text>
+                    @endif
+                </div>
+            @endif
         @endif
 
         <div class="grid gap-6 lg:grid-cols-2">

@@ -11,6 +11,24 @@ use Illuminate\View\View;
 
 class PortalGigController extends PortalController
 {
+    public function past(): View
+    {
+        $assignments = GigAssignment::query()
+            ->with(['gig.region', 'instrument'])
+            ->where('user_id', auth()->id())
+            ->whereHas('gig', function ($query): void {
+                $query->where('date', '<', now()->startOfDay());
+            })
+            ->join('gigs', 'gig_assignments.gig_id', '=', 'gigs.id')
+            ->orderByDesc('gigs.date')
+            ->select('gig_assignments.*')
+            ->paginate(12);
+
+        return view('portal.past-gigs', [
+            'assignments' => $assignments,
+        ]);
+    }
+
     public function show(Gig $gig): View
     {
         $assignment = $this->getAssignmentForCurrentUser($gig);
@@ -89,6 +107,39 @@ class PortalGigController extends PortalController
         return redirect()
             ->route('portal.gigs.show', $gig)
             ->with('success', 'You have declined this gig assignment.');
+    }
+
+    public function subout(Request $request, Gig $gig): RedirectResponse
+    {
+        $assignment = $this->getAssignmentForCurrentUser($gig);
+
+        abort_if(! $assignment, 403, 'You are not assigned to this gig.');
+
+        if ($assignment->status !== AssignmentStatus::Accepted) {
+            return redirect()
+                ->route('portal.gigs.show', $gig)
+                ->with('error', 'You can only request a sub-out for an accepted assignment.');
+        }
+
+        $request->validate([
+            'reason' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $oldStatus = $assignment->status;
+
+        $assignment->update([
+            'status' => AssignmentStatus::SuboutRequested,
+            'subout_reason' => $request->input('reason'),
+            'responded_at' => now(),
+        ]);
+
+        $this->logStatusChange($assignment, $oldStatus, AssignmentStatus::SuboutRequested, $request->input('reason'));
+
+        // TODO: Send urgent notification to admins (Phase 8)
+
+        return redirect()
+            ->route('portal.gigs.show', $gig)
+            ->with('success', 'Your sub-out request has been submitted. An admin will contact you soon.');
     }
 
     private function getAssignmentForCurrentUser(Gig $gig): ?GigAssignment

@@ -798,14 +798,14 @@ Action for musician to decline a gig assignment.
 ### Phase 7.6: Request Sub-Out (US-5.5)
 Action for musician to request a sub-out after accepting.
 
-- [ ] Create `PortalGigController@subout` POST route with required reason
-- [ ] Validate assignment is in 'accepted' status
-- [ ] Update status to 'subout_requested'
-- [ ] Store subout_reason (required)
-- [ ] Set responded_at timestamp
-- [ ] Create audit log entry
-- [ ] Send urgent notification to all admins
-- [ ] Redirect back with success message
+- [x] Create `PortalGigController@subout` POST route with required reason
+- [x] Validate assignment is in 'accepted' status
+- [x] Update status to 'subout_requested'
+- [x] Store subout_reason (required)
+- [x] Set responded_at timestamp
+- [x] Create audit log entry
+- [ ] Send urgent notification to all admins (deferred to Phase 8)
+- [x] Redirect back with success message
 
 **Tests:** `tests/Feature/Portal/SuboutRequestTest.php`
 ```
@@ -828,12 +828,12 @@ Action for musician to request a sub-out after accepting.
 ### Phase 7.7: Past Gigs (US-5.6)
 View for musician to see their past assignments.
 
-- [ ] Create `PortalGigController@past` returning view
-- [ ] Query past gig assignments (gig date < today)
-- [ ] Display: date, venue, gig name, instrument/role
-- [ ] Show final status (accepted, declined, etc.)
-- [ ] Link to read-only detail view
-- [ ] Paginate results
+- [x] Create `PortalGigController@past` returning view
+- [x] Query past gig assignments (gig date < today)
+- [x] Display: date, venue, gig name, instrument/role
+- [x] Show final status (accepted, declined, etc.)
+- [x] Link to read-only detail view
+- [x] Paginate results
 
 **Tests:** `tests/Feature/Portal/PastGigsTest.php`
 ```
@@ -852,13 +852,13 @@ View for musician to see their past assignments.
 ### Phase 7.8: My Profile (US-5.7)
 Read-only profile view for musician.
 
-- [ ] Create `PortalProfileController@show` returning view
-- [ ] Display: name, email, phone
-- [ ] Display: instruments (list)
-- [ ] Display: region
-- [ ] Display: tags (list)
-- [ ] Show "Contact admin to update" message
-- [ ] No edit functionality (admin manages)
+- [x] Create `PortalProfileController@show` returning view
+- [x] Display: name, email, phone
+- [x] Display: instruments (list)
+- [x] Display: region
+- [x] Display: tags (list)
+- [x] Show "Contact admin to update" message
+- [x] No edit functionality (admin manages)
 
 **Tests:** `tests/Feature/Portal/ProfileTest.php`
 ```
@@ -1250,14 +1250,16 @@ Security audit tests.
 - [x] Phase 5: Admin Panel - Gig Management - GigResource with list/create/edit/view, cancel/delete, duplicate
 - [x] Phase 6: Admin Panel - Gig Staffing - AssignmentsRelationManager with create/edit/delete, status updates, bulk assign, find replacement
 
-**In Progress:**
-- [ ] Phase 7: Musician Portal
+**Completed:**
+- [x] Phase 7: Musician Portal
   - [x] Phase 7.1: Portal Layout & Navigation
   - [x] Phase 7.2: Dashboard - Upcoming Gigs
   - [x] Phase 7.3: Gig Detail View
   - [x] Phase 7.4: Accept Assignment
   - [x] Phase 7.5: Decline Assignment
-  - [ ] Phase 7.6-7.8: Remaining portal features (Sub-out, Past Gigs, Profile)
+  - [x] Phase 7.6: Request Sub-Out
+  - [x] Phase 7.7: Past Gigs
+  - [x] Phase 7.8: My Profile
 
 **Not Started:**
 - [ ] Phase 8: Notifications
