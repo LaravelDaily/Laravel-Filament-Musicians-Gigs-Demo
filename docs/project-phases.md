@@ -1053,11 +1053,11 @@ Dashboard overview widgets for Filament.
 ### Phase 10.1: Admin Users Management (US-8.1)
 Manage admin user accounts.
 
-- [ ] Create `AdminUserResource` or scope within UserResource
-- [ ] List/Create/Edit admin users only
-- [ ] Cannot delete own account (validation)
-- [ ] Ensure at least one admin remains active
-- [ ] Deactivate action (set is_active = false)
+- [x] Create `AdminUserResource` or scope within UserResource
+- [x] List/Create/Edit admin users only
+- [x] Cannot delete own account (validation)
+- [x] Ensure at least one admin remains active
+- [x] Deactivate action (set is_active = false)
 
 **Tests:** `tests/Feature/Filament/AdminUserResourceTest.php`
 ```
@@ -1075,11 +1075,11 @@ Manage admin user accounts.
 ### Phase 10.2: System Settings (US-8.2)
 Configurable system settings.
 
-- [ ] Create Settings Filament page
-- [ ] Setting: company_name (used in emails and portal header)
-- [ ] Setting: notification_email (CC on notifications, optional)
-- [ ] Setting: timezone (default timezone for display)
-- [ ] Use Setting model with get/set helper methods
+- [x] Create Settings Filament page
+- [x] Setting: company_name (used in emails and portal header)
+- [x] Setting: notification_email (CC on notifications, optional)
+- [x] Setting: timezone (default timezone for display)
+- [x] Use Setting model with get/set helper methods
 
 **Tests:** `tests/Feature/Filament/SettingsPageTest.php`
 ```
@@ -1271,7 +1271,9 @@ Security audit tests.
   - [x] Phase 9.3: Export Assignments CSV
   - [x] Phase 9.4: Audit Log View
   - [x] Phase 9.5: Admin Dashboard Widgets
+- [x] Phase 10: System Administration
+  - [x] Phase 10.1: Admin Users Management
+  - [x] Phase 10.2: System Settings
 
 **Not Started:**
-- [ ] Phase 10: System Administration
 - [ ] Phase 11: Final Testing & Polish

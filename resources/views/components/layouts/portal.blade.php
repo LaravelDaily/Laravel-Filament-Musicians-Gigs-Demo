@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'Musician Portal' }} - {{ config('app.name', 'Mod Society') }}</title>
+    @php
+        $companyName = \App\Models\Setting::get('company_name', config('app.name', 'Mod Society'));
+    @endphp
+    <title>{{ $title ?? 'Musician Portal' }} - {{ $companyName }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
@@ -17,7 +20,7 @@
     <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-        <flux:brand href="{{ route('portal.dashboard') }}" name="{{ config('app.name', 'Mod Society') }}" class="max-lg:hidden">
+        <flux:brand href="{{ route('portal.dashboard') }}" name="{{ $companyName }}" class="max-lg:hidden">
             <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
                 <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
             </x-slot>
@@ -54,7 +57,7 @@
 
     <flux:sidebar collapsible="mobile" class="border-r border-zinc-200 bg-zinc-50 lg:hidden dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
-            <flux:brand href="{{ route('portal.dashboard') }}" name="{{ config('app.name', 'Mod Society') }}">
+            <flux:brand href="{{ route('portal.dashboard') }}" name="{{ $companyName }}">
                 <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
                     <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
                 </x-slot>

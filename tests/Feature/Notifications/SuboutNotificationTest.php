@@ -83,7 +83,7 @@ test('it has urgent subject line', function () {
     Notification::assertSentTo($admin, SubOutRequested::class, function ($notification) {
         $mail = $notification->toMail($notification->assignment->user);
 
-        return str_starts_with($mail->subject, 'URGENT:')
+        return str_contains($mail->subject, 'URGENT:')
             && str_contains($mail->subject, 'Corporate Event');
     });
 });

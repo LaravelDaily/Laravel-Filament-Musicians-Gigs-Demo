@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Filament\Resources\Gigs\GigResource;
 use App\Models\GigAssignment;
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,9 +28,10 @@ class GigAssignmentDeclined extends Notification implements ShouldQueue
         $gig = $this->assignment->gig;
         $musician = $this->assignment->user;
         $instrument = $this->assignment->instrument;
+        $companyName = Setting::get('company_name', config('app.name'));
 
         $message = (new MailMessage)
-            ->subject("Gig Assignment Declined: {$gig->name}")
+            ->subject("[{$companyName}] Gig Assignment Declined: {$gig->name}")
             ->greeting('Assignment Declined')
             ->line('A musician has declined a gig assignment.')
             ->line("**Gig:** {$gig->name}")
@@ -39,6 +41,11 @@ class GigAssignmentDeclined extends Notification implements ShouldQueue
 
         if ($this->assignment->decline_reason) {
             $message->line("**Reason:** {$this->assignment->decline_reason}");
+        }
+
+        $notificationEmail = Setting::get('notification_email');
+        if ($notificationEmail) {
+            $message->cc($notificationEmail);
         }
 
         return $message
