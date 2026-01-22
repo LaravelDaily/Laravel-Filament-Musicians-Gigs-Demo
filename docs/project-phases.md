@@ -1027,11 +1027,11 @@ View assignment status change history.
 ### Phase 9.5: Admin Dashboard Widgets (US-7.5)
 Dashboard overview widgets for Filament.
 
-- [ ] Create `UpcomingGigsWidget` - count of gigs in next 7 days
-- [ ] Create `NeedsAttentionWidget` - gigs with pending/sub-out requests
-- [ ] Create `RecentActivityWidget` - declines/sub-outs in last 24 hours
-- [ ] Create `ActiveMusiciansWidget` - total count of active musicians
-- [ ] Register widgets on Filament dashboard
+- [x] Create `UpcomingGigsWidget` - count of gigs in next 7 days
+- [x] Create `NeedsAttentionWidget` - gigs with pending/sub-out requests
+- [x] Create `RecentActivityWidget` - declines/sub-outs in last 24 hours
+- [x] Create `ActiveMusiciansWidget` - total count of active musicians
+- [x] Register widgets on Filament dashboard
 
 **Tests:** `tests/Feature/Filament/DashboardWidgetsTest.php`
 ```
@@ -1264,13 +1264,13 @@ Security audit tests.
   - [x] Phase 8.1: Decline Notification
   - [x] Phase 8.2: Sub-Out Notification
 
-**In Progress:**
-- [ ] Phase 9: Admin Tools & Reports
+**Completed:**
+- [x] Phase 9: Admin Tools & Reports
   - [x] Phase 9.1: Print Gig Worksheet
   - [x] Phase 9.2: Export Gigs CSV
   - [x] Phase 9.3: Export Assignments CSV
   - [x] Phase 9.4: Audit Log View
-  - [ ] Phase 9.5: Admin Dashboard Widgets
+  - [x] Phase 9.5: Admin Dashboard Widgets
 
 **Not Started:**
 - [ ] Phase 10: System Administration
