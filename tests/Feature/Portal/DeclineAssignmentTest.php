@@ -4,6 +4,8 @@ use App\Enums\AssignmentStatus;
 use App\Models\Gig;
 use App\Models\GigAssignment;
 use App\Models\User;
+use App\Notifications\GigAssignmentDeclined;
+use Illuminate\Support\Facades\Notification;
 
 test('it can decline pending assignment', function () {
     $user = User::factory()->musician()->create();
@@ -224,4 +226,20 @@ test('it requires musician role', function () {
     $response = $this->actingAs($admin)->post(route('portal.gigs.decline', $gig));
 
     $response->assertForbidden();
+});
+
+test('it sends notification to admins', function () {
+    Notification::fake();
+
+    $admin = User::factory()->admin()->create();
+    $musician = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    GigAssignment::factory()->pending()->create([
+        'user_id' => $musician->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $this->actingAs($musician)->post(route('portal.gigs.decline', $gig));
+
+    Notification::assertSentTo($admin, GigAssignmentDeclined::class);
 });

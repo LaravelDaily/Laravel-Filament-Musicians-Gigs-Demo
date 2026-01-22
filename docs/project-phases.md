@@ -776,7 +776,7 @@ Action for musician to decline a gig assignment.
 - [x] Store decline_reason
 - [x] Set responded_at timestamp
 - [x] Create audit log entry
-- [ ] Send notification to all admins (deferred to Phase 8)
+- [x] Send notification to all admins (implemented in Phase 8)
 - [x] Redirect back with success message
 
 **Tests:** `tests/Feature/Portal/DeclineAssignmentTest.php`
@@ -804,7 +804,7 @@ Action for musician to request a sub-out after accepting.
 - [x] Store subout_reason (required)
 - [x] Set responded_at timestamp
 - [x] Create audit log entry
-- [ ] Send urgent notification to all admins (deferred to Phase 8)
+- [x] Send urgent notification to all admins (implemented in Phase 8)
 - [x] Redirect back with success message
 
 **Tests:** `tests/Feature/Portal/SuboutRequestTest.php`
@@ -880,11 +880,11 @@ Read-only profile view for musician.
 ### Phase 8.1: Decline Notification (US-6.1)
 Email notification when musician declines assignment.
 
-- [ ] Create `GigAssignmentDeclined` notification class
-- [ ] Email content: gig name, gig date, musician name, instrument, decline reason (if provided)
-- [ ] Include link to gig in admin panel
-- [ ] Queue the notification
-- [ ] Send to all users with admin role
+- [x] Create `GigAssignmentDeclined` notification class
+- [x] Email content: gig name, gig date, musician name, instrument, decline reason (if provided)
+- [x] Include link to gig in admin panel
+- [x] Queue the notification
+- [x] Send to all users with admin role
 
 **Tests:** `tests/Feature/Notifications/DeclineNotificationTest.php`
 ```
@@ -904,12 +904,12 @@ Email notification when musician declines assignment.
 ### Phase 8.2: Sub-Out Notification (US-6.2)
 Urgent email notification when musician requests sub-out.
 
-- [ ] Create `SubOutRequested` notification class
-- [ ] Urgent subject line (e.g., "URGENT: Sub-Out Request for [Gig Name]")
-- [ ] Email content: gig name, gig date, musician name, instrument, sub-out reason
-- [ ] Include link to gig in admin panel
-- [ ] Queue the notification
-- [ ] Send to all users with admin role
+- [x] Create `SubOutRequested` notification class
+- [x] Urgent subject line (e.g., "URGENT: Sub-Out Request for [Gig Name]")
+- [x] Email content: gig name, gig date, musician name, instrument, sub-out reason
+- [x] Include link to gig in admin panel
+- [x] Queue the notification
+- [x] Send to all users with admin role
 
 **Tests:** `tests/Feature/Notifications/SuboutNotificationTest.php`
 ```
@@ -1260,9 +1260,11 @@ Security audit tests.
   - [x] Phase 7.6: Request Sub-Out
   - [x] Phase 7.7: Past Gigs
   - [x] Phase 7.8: My Profile
+- [x] Phase 8: Notifications
+  - [x] Phase 8.1: Decline Notification
+  - [x] Phase 8.2: Sub-Out Notification
 
 **Not Started:**
-- [ ] Phase 8: Notifications
 - [ ] Phase 9: Admin Tools & Reports
 - [ ] Phase 10: System Administration
 - [ ] Phase 11: Final Testing & Polish

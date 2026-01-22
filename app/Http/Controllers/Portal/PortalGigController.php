@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Portal;
 
 use App\Enums\AssignmentStatus;
+use App\Enums\UserRole;
 use App\Models\Gig;
 use App\Models\GigAssignment;
+use App\Models\User;
+use App\Notifications\GigAssignmentDeclined;
+use App\Notifications\SubOutRequested;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 
 class PortalGigController extends PortalController
@@ -102,7 +107,7 @@ class PortalGigController extends PortalController
 
         $this->logStatusChange($assignment, $oldStatus, AssignmentStatus::Declined, $request->input('reason'));
 
-        // TODO: Send notification to admins (Phase 8)
+        $this->notifyAdmins(new GigAssignmentDeclined($assignment->load(['gig', 'user', 'instrument'])));
 
         return redirect()
             ->route('portal.gigs.show', $gig)
@@ -135,7 +140,7 @@ class PortalGigController extends PortalController
 
         $this->logStatusChange($assignment, $oldStatus, AssignmentStatus::SuboutRequested, $request->input('reason'));
 
-        // TODO: Send urgent notification to admins (Phase 8)
+        $this->notifyAdmins(new SubOutRequested($assignment->load(['gig', 'user', 'instrument'])));
 
         return redirect()
             ->route('portal.gigs.show', $gig)
@@ -164,5 +169,12 @@ class PortalGigController extends PortalController
             'changed_by_user_id' => auth()->id(),
             'created_at' => now(),
         ]);
+    }
+
+    private function notifyAdmins(\Illuminate\Notifications\Notification $notification): void
+    {
+        $admins = User::where('role', UserRole::Admin)->where('is_active', true)->get();
+
+        Notification::send($admins, $notification);
     }
 }

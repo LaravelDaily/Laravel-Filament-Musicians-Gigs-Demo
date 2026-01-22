@@ -4,6 +4,8 @@ use App\Enums\AssignmentStatus;
 use App\Models\Gig;
 use App\Models\GigAssignment;
 use App\Models\User;
+use App\Notifications\SubOutRequested;
+use Illuminate\Support\Facades\Notification;
 
 test('it can request sub-out for accepted assignment', function () {
     $user = User::factory()->musician()->create();
@@ -241,4 +243,22 @@ test('it requires musician role', function () {
     ]);
 
     $response->assertForbidden();
+});
+
+test('it sends urgent notification to admins', function () {
+    Notification::fake();
+
+    $admin = User::factory()->admin()->create();
+    $musician = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    GigAssignment::factory()->accepted()->create([
+        'user_id' => $musician->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $this->actingAs($musician)->post(route('portal.gigs.subout', $gig), [
+        'reason' => 'Family emergency',
+    ]);
+
+    Notification::assertSentTo($admin, SubOutRequested::class);
 });
