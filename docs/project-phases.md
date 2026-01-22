@@ -165,12 +165,11 @@ Configure routing based on user roles.
 
 - [x] User authentication system (Fortify) - **US-1.1, US-1.2**
 - [x] Password reset functionality - **US-1.3**
-- [ ] Create middleware `EnsureUserIsActive` to block inactive users
-- [ ] Create middleware `EnsureUserIsAdmin` for admin routes
-- [ ] Create middleware `EnsureUserIsMusician` for portal routes
-- [ ] Configure Filament admin panel to only allow admin users via Gate
-- [ ] Create redirect logic: admins → /admin, musicians → /portal after login
-- [ ] Create musician portal route group at `/portal`
+- [x] Create middleware `EnsureUserIsActive` to block inactive users
+- [x] Create middleware `EnsureUserIsMusician` for portal routes
+- [x] Configure Filament admin panel to only allow admin users via `FilamentUser` contract
+- [x] Create redirect logic: admins → /admin, musicians → /portal after login
+- [x] Create musician portal route group at `/portal`
 
 **Tests:** `tests/Feature/Auth/RoleBasedAccessTest.php`
 ```
@@ -195,10 +194,10 @@ Configure routing based on user roles.
 ### Phase 2.2: Authorization Policies
 Create Laravel policies for authorization.
 
-- [ ] Create `GigPolicy` (viewAny, view, create, update, delete - admin only)
-- [ ] Create `GigAssignmentPolicy` (respond - own assignment only, view - own or admin)
-- [ ] Create `UserPolicy` (viewAny, create, update, delete - admin only, cannot delete self)
-- [ ] Register policies in `AuthServiceProvider` or use auto-discovery
+- [x] Create `GigPolicy` (viewAny, view, create, update, delete - admin only)
+- [x] Create `GigAssignmentPolicy` (respond - own assignment only, view - own or admin)
+- [x] Create `UserPolicy` (viewAny, create, update, delete - admin only, cannot delete self)
+- [x] Register policies using Laravel auto-discovery
 
 **Tests:** `tests/Feature/Policies/GigPolicyTest.php`
 ```
@@ -1244,12 +1243,16 @@ Security audit tests.
 - [x] Basic settings pages (profile, password, appearance)
 - [x] Test infrastructure (Pest v4)
 - [x] Existing auth tests (authentication, registration, password reset, email verification, 2FA)
+- [x] Phase 1: Foundation (Database & Core Models) - All enums, migrations, models, factories
+- [x] Phase 2: Authentication & Access Control - Middleware, role-based routing, policies
 
 **Not Started:**
-- [ ] All domain-specific features (Phases 1-11)
-- [ ] No domain models created
-- [ ] No domain migrations created
-- [ ] No enums created
-- [ ] No Filament resources created
-- [ ] No notifications created
-- [ ] No policies created
+- [ ] Phase 3: Admin Panel - Lookup Tables Management
+- [ ] Phase 4: Admin Panel - Musician Roster Management
+- [ ] Phase 5: Admin Panel - Gig Management
+- [ ] Phase 6: Admin Panel - Gig Staffing
+- [ ] Phase 7: Musician Portal
+- [ ] Phase 8: Notifications
+- [ ] Phase 9: Admin Tools & Reports
+- [ ] Phase 10: System Administration
+- [ ] Phase 11: Final Testing & Polish
