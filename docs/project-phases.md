@@ -308,15 +308,15 @@ Filament resource for managing tags list.
 ### Phase 4.1: Musician Resource - List View (US-2.3)
 Filament resource for viewing and managing musician roster.
 
-- [ ] Create `MusicianResource` (scoped to role=musician users)
-- [ ] List columns: name, email, phone, instruments (badges), region, tags, is_active
-- [ ] Add search by name and email
-- [ ] Add filter by instrument
-- [ ] Add filter by region
-- [ ] Add filter by tag
-- [ ] Add filter by active status
-- [ ] Add sort by name (default)
-- [ ] Implement pagination
+- [x] Create `MusicianResource` (scoped to role=musician users)
+- [x] List columns: name, email, phone, instruments (badges), region, tags, is_active
+- [x] Add search by name and email
+- [x] Add filter by instrument
+- [x] Add filter by region
+- [x] Add filter by tag
+- [x] Add filter by active status
+- [x] Add sort by name (default)
+- [x] Implement pagination
 
 **Tests:** `tests/Feature/Filament/MusicianResourceTest.php`
 ```
@@ -338,13 +338,13 @@ Filament resource for viewing and managing musician roster.
 ### Phase 4.2: Musician Resource - Create (US-2.1)
 Form for adding new musicians to roster.
 
-- [ ] Create form with fields: name (required), email (required, unique), phone
-- [ ] Add CheckboxList for instruments (multi-select)
-- [ ] Add Select for region
-- [ ] Add CheckboxList for tags (multi-select)
-- [ ] Add Textarea for notes
-- [ ] Auto-set role to 'musician' on creation
-- [ ] Generate random password and send welcome email with password reset link
+- [x] Create form with fields: name (required), email (required, unique), phone
+- [x] Add CheckboxList for instruments (multi-select)
+- [x] Add Select for region
+- [x] Add CheckboxList for tags (multi-select)
+- [x] Add Textarea for notes
+- [x] Auto-set role to 'musician' on creation
+- [x] Generate random password and send welcome email with password reset link
 
 **Tests:** `tests/Feature/Filament/MusicianResource/CreateMusicianTest.php`
 ```
@@ -367,10 +367,10 @@ Form for adding new musicians to roster.
 ### Phase 4.3: Musician Resource - Edit (US-2.2)
 Form for editing musician profiles.
 
-- [ ] Edit form with all musician fields
-- [ ] Validate email uniqueness on update (ignoring current record)
-- [ ] Allow editing instruments, region, and tags
-- [ ] Show created_at and last login info (read-only)
+- [x] Edit form with all musician fields
+- [x] Validate email uniqueness on update (ignoring current record)
+- [x] Allow editing instruments, region, and tags
+- [x] Show created_at and last login info (read-only)
 
 **Tests:** `tests/Feature/Filament/MusicianResource/EditMusicianTest.php`
 ```
@@ -391,10 +391,10 @@ Form for editing musician profiles.
 ### Phase 4.4: Musician Resource - Deactivate/Reactivate (US-2.4)
 Actions for managing musician active status.
 
-- [ ] Add toggle action for is_active status
-- [ ] Add bulk deactivate action
-- [ ] Deactivated musicians excluded from assignment dropdowns (global scope or query filter)
-- [ ] Show deactivated musicians in list with visual indicator (badge/color)
+- [x] Add toggle action for is_active status
+- [x] Add bulk deactivate action
+- [x] Deactivated musicians excluded from assignment dropdowns (global scope or query filter)
+- [x] Show deactivated musicians in list with visual indicator (badge/color)
 
 **Tests:** `tests/Feature/Filament/MusicianResource/DeactivateMusicianTest.php`
 ```
@@ -1246,9 +1246,9 @@ Security audit tests.
 - [x] Phase 1: Foundation (Database & Core Models) - All enums, migrations, models, factories
 - [x] Phase 2: Authentication & Access Control - Middleware, role-based routing, policies
 - [x] Phase 3: Admin Panel - Lookup Tables Management - Instruments, Regions, Tags resources
+- [x] Phase 4: Admin Panel - Musician Roster Management - MusicianResource with list/create/edit, deactivate/reactivate
 
 **Not Started:**
-- [ ] Phase 4: Admin Panel - Musician Roster Management
 - [ ] Phase 5: Admin Panel - Gig Management
 - [ ] Phase 6: Admin Panel - Gig Staffing
 - [ ] Phase 7: Musician Portal
