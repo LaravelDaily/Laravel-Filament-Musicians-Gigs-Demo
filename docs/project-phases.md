@@ -958,11 +958,11 @@ Print-friendly worksheet for day-of gig use.
 ### Phase 9.2: Export Gigs CSV (US-7.2)
 CSV export of gig data.
 
-- [ ] Add export action on GigResource
-- [ ] Use Filament's built-in export or custom action
-- [ ] Include columns: date, name, venue_name, venue_address, region, status, staffing count
-- [ ] Apply current filters before export
-- [ ] Proper date formatting
+- [x] Add export action on GigResource
+- [x] Use Filament's built-in export or custom action
+- [x] Include columns: date, name, venue_name, venue_address, region, status, staffing count
+- [x] Apply current filters before export
+- [x] Proper date formatting
 
 **Tests:** `tests/Feature/Admin/ExportGigsTest.php`
 ```
@@ -980,10 +980,10 @@ CSV export of gig data.
 ### Phase 9.3: Export Assignments CSV (US-7.3)
 CSV export of assignment data.
 
-- [ ] Create export action or page for assignments
-- [ ] Include columns: gig date, gig name, musician name, musician email, instrument, status, pay_amount
-- [ ] Filter by date range
-- [ ] Filter by musician
+- [x] Create export action or page for assignments
+- [x] Include columns: gig date, gig name, musician name, musician email, instrument, status, pay_amount
+- [x] Filter by date range
+- [x] Filter by musician
 
 **Tests:** `tests/Feature/Admin/ExportAssignmentsTest.php`
 ```
@@ -1267,8 +1267,8 @@ Security audit tests.
 **In Progress:**
 - [ ] Phase 9: Admin Tools & Reports
   - [x] Phase 9.1: Print Gig Worksheet
-  - [ ] Phase 9.2: Export Gigs CSV
-  - [ ] Phase 9.3: Export Assignments CSV
+  - [x] Phase 9.2: Export Gigs CSV
+  - [x] Phase 9.3: Export Assignments CSV
   - [ ] Phase 9.4: Audit Log View
   - [ ] Phase 9.5: Admin Dashboard Widgets
 
