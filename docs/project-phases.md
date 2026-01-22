@@ -932,15 +932,15 @@ Urgent email notification when musician requests sub-out.
 ### Phase 9.1: Print Gig Worksheet (US-7.1)
 Print-friendly worksheet for day-of gig use.
 
-- [ ] Create `GigWorksheetController@show` route
-- [ ] Print-friendly Blade template (no navigation, minimal styling)
-- [ ] Include: gig name, date, day of week
-- [ ] Include: call time, performance time, end time
-- [ ] Include: venue name and full address
-- [ ] Include: client contact info (name, phone, email)
-- [ ] Include: dress code, notes
-- [ ] Include: table of musicians with name, instrument, phone number
-- [ ] Optimize for letter/A4 paper
+- [x] Create `GigWorksheetController@show` route
+- [x] Print-friendly Blade template (no navigation, minimal styling)
+- [x] Include: gig name, date, day of week
+- [x] Include: call time, performance time, end time
+- [x] Include: venue name and full address
+- [x] Include: client contact info (name, phone, email)
+- [x] Include: dress code, notes
+- [x] Include: table of musicians with name, instrument, phone number
+- [x] Optimize for letter/A4 paper
 
 **Tests:** `tests/Feature/Admin/GigWorksheetTest.php`
 ```
@@ -1264,7 +1264,14 @@ Security audit tests.
   - [x] Phase 8.1: Decline Notification
   - [x] Phase 8.2: Sub-Out Notification
 
-**Not Started:**
+**In Progress:**
 - [ ] Phase 9: Admin Tools & Reports
+  - [x] Phase 9.1: Print Gig Worksheet
+  - [ ] Phase 9.2: Export Gigs CSV
+  - [ ] Phase 9.3: Export Assignments CSV
+  - [ ] Phase 9.4: Audit Log View
+  - [ ] Phase 9.5: Admin Dashboard Widgets
+
+**Not Started:**
 - [ ] Phase 10: System Administration
 - [ ] Phase 11: Final Testing & Polish

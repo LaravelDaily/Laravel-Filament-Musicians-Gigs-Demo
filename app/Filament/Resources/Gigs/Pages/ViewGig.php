@@ -249,6 +249,12 @@ class ViewGig extends ViewRecord
                     }
                 }),
             EditAction::make(),
+            Action::make('printWorksheet')
+                ->label('Print Worksheet')
+                ->icon(Heroicon::OutlinedPrinter)
+                ->color('gray')
+                ->url(fn (): string => route('admin.gigs.worksheet', ['gig' => $this->record]))
+                ->openUrlInNewTab(),
             Action::make('cancel')
                 ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
