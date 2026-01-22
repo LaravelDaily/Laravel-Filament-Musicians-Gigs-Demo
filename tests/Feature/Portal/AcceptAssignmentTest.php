@@ -1,0 +1,160 @@
+<?php
+
+use App\Enums\AssignmentStatus;
+use App\Models\Gig;
+use App\Models\GigAssignment;
+use App\Models\User;
+
+test('it can accept pending assignment', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->pending()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertRedirect(route('portal.gigs.show', $gig));
+    $response->assertSessionHas('success');
+    expect($assignment->fresh()->status)->toBe(AssignmentStatus::Accepted);
+});
+
+test('it cannot accept already accepted assignment', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->accepted()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertRedirect(route('portal.gigs.show', $gig));
+    $response->assertSessionHas('error');
+    expect($assignment->fresh()->status)->toBe(AssignmentStatus::Accepted);
+});
+
+test('it cannot accept declined assignment', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->declined()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertRedirect(route('portal.gigs.show', $gig));
+    $response->assertSessionHas('error');
+    expect($assignment->fresh()->status)->toBe(AssignmentStatus::Declined);
+});
+
+test('it cannot accept sub-out requested assignment', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->suboutRequested()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertRedirect(route('portal.gigs.show', $gig));
+    $response->assertSessionHas('error');
+    expect($assignment->fresh()->status)->toBe(AssignmentStatus::SuboutRequested);
+});
+
+test('it sets status to accepted', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->pending()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    expect($assignment->fresh()->status)->toBe(AssignmentStatus::Accepted);
+});
+
+test('it sets responded_at timestamp', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->pending()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+        'responded_at' => null,
+    ]);
+
+    $this->freezeTime();
+
+    $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    expect($assignment->fresh()->responded_at)->not->toBeNull();
+    expect($assignment->fresh()->responded_at->toDateTimeString())->toBe(now()->toDateTimeString());
+});
+
+test('it creates audit log entry', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->pending()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $this->assertDatabaseHas('assignment_status_logs', [
+        'gig_assignment_id' => $assignment->id,
+        'old_status' => AssignmentStatus::Pending->value,
+        'new_status' => AssignmentStatus::Accepted->value,
+        'changed_by_user_id' => $user->id,
+    ]);
+});
+
+test('it redirects with success message', function () {
+    $user = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    GigAssignment::factory()->pending()->create([
+        'user_id' => $user->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertRedirect(route('portal.gigs.show', $gig));
+    $response->assertSessionHas('success', 'You have accepted this gig assignment.');
+});
+
+test('it cannot accept assignment for other musician', function () {
+    $user = User::factory()->musician()->create();
+    $otherUser = User::factory()->musician()->create();
+    $gig = Gig::factory()->active()->future()->create();
+    $assignment = GigAssignment::factory()->pending()->create([
+        'user_id' => $otherUser->id,
+        'gig_id' => $gig->id,
+    ]);
+
+    $response = $this->actingAs($user)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertForbidden();
+    expect($assignment->fresh()->status)->toBe(AssignmentStatus::Pending);
+});
+
+test('it requires authentication', function () {
+    $gig = Gig::factory()->active()->future()->create();
+
+    $response = $this->post(route('portal.gigs.accept', $gig));
+
+    $response->assertRedirect(route('login'));
+});
+
+test('it requires musician role', function () {
+    $admin = User::factory()->admin()->create();
+    $gig = Gig::factory()->active()->future()->create();
+
+    $response = $this->actingAs($admin)->post(route('portal.gigs.accept', $gig));
+
+    $response->assertForbidden();
+});

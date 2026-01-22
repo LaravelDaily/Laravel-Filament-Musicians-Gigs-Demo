@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Portal\PortalDashboardController;
-use App\Models\Gig;
+use App\Http\Controllers\Portal\PortalGigController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'musician'])->prefix('portal')->name('portal.')->group(function (): void {
@@ -11,6 +11,8 @@ Route::middleware(['auth', 'musician'])->prefix('portal')->name('portal.')->grou
     Route::view('/gigs/past', 'portal.past-gigs')->name('gigs.past');
     Route::view('/profile', 'portal.profile')->name('profile');
 
-    // Placeholder route for gig detail (to be implemented in Phase 7.3) - must be after /gigs/past
-    Route::get('/gigs/{gig}', fn (Gig $gig) => view('portal.gig-detail', ['gig' => $gig]))->name('gigs.show');
+    // Gig routes (must be after /gigs/past to avoid route conflicts)
+    Route::get('/gigs/{gig}', [PortalGigController::class, 'show'])->name('gigs.show');
+    Route::post('/gigs/{gig}/accept', [PortalGigController::class, 'accept'])->name('gigs.accept');
+    Route::post('/gigs/{gig}/decline', [PortalGigController::class, 'decline'])->name('gigs.decline');
 });

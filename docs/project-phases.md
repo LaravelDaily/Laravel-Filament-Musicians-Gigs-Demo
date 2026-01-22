@@ -712,17 +712,17 @@ Main dashboard showing musician's upcoming assignments.
 ### Phase 7.3: Gig Detail View (US-5.2)
 Detailed view of a specific gig assignment.
 
-- [ ] Create `PortalGigController@show` with gig route model binding
-- [ ] Authorize: musician can only view own assignments
-- [ ] Display: gig name, date, day of week
-- [ ] Display: call time, performance time (if set), end time (if set)
-- [ ] Display: venue name, venue address with Google Maps link
-- [ ] Display: dress code, notes/instructions
-- [ ] Display: musician's assigned instrument, pay amount (if set)
-- [ ] List attached PDFs with download links
-- [ ] Show other assigned musicians (names and instruments only)
-- [ ] Show Accept/Decline buttons (if status is pending)
-- [ ] Show Sub-out button (if status is accepted)
+- [x] Create `PortalGigController@show` with gig route model binding
+- [x] Authorize: musician can only view own assignments
+- [x] Display: gig name, date, day of week
+- [x] Display: call time, performance time (if set), end time (if set)
+- [x] Display: venue name, venue address with Google Maps link
+- [x] Display: dress code, notes/instructions
+- [x] Display: musician's assigned instrument, pay amount (if set)
+- [x] List attached PDFs with download links
+- [x] Show other assigned musicians (names and instruments only)
+- [x] Show Accept/Decline buttons (if status is pending)
+- [x] Show Sub-out button (if status is accepted)
 
 **Tests:** `tests/Feature/Portal/GigDetailTest.php`
 ```
@@ -745,12 +745,12 @@ Detailed view of a specific gig assignment.
 ### Phase 7.4: Accept Assignment (US-5.3)
 Action for musician to accept a gig assignment.
 
-- [ ] Create `PortalGigController@accept` POST route
-- [ ] Validate assignment is in 'pending' status
-- [ ] Update status to 'accepted'
-- [ ] Set responded_at timestamp
-- [ ] Create audit log entry
-- [ ] Redirect back with success message
+- [x] Create `PortalGigController@accept` POST route
+- [x] Validate assignment is in 'pending' status
+- [x] Update status to 'accepted'
+- [x] Set responded_at timestamp
+- [x] Create audit log entry
+- [x] Redirect back with success message
 
 **Tests:** `tests/Feature/Portal/AcceptAssignmentTest.php`
 ```
@@ -770,14 +770,14 @@ Action for musician to accept a gig assignment.
 ### Phase 7.5: Decline Assignment (US-5.4)
 Action for musician to decline a gig assignment.
 
-- [ ] Create `PortalGigController@decline` POST route with optional reason
-- [ ] Validate assignment is in 'pending' or 'accepted' status
-- [ ] Update status to 'declined'
-- [ ] Store decline_reason
-- [ ] Set responded_at timestamp
-- [ ] Create audit log entry
-- [ ] Send notification to all admins
-- [ ] Redirect back with success message
+- [x] Create `PortalGigController@decline` POST route with optional reason
+- [x] Validate assignment is in 'pending' or 'accepted' status
+- [x] Update status to 'declined'
+- [x] Store decline_reason
+- [x] Set responded_at timestamp
+- [x] Create audit log entry
+- [ ] Send notification to all admins (deferred to Phase 8)
+- [x] Redirect back with success message
 
 **Tests:** `tests/Feature/Portal/DeclineAssignmentTest.php`
 ```
@@ -1254,7 +1254,10 @@ Security audit tests.
 - [ ] Phase 7: Musician Portal
   - [x] Phase 7.1: Portal Layout & Navigation
   - [x] Phase 7.2: Dashboard - Upcoming Gigs
-  - [ ] Phase 7.3-7.8: Remaining portal features
+  - [x] Phase 7.3: Gig Detail View
+  - [x] Phase 7.4: Accept Assignment
+  - [x] Phase 7.5: Decline Assignment
+  - [ ] Phase 7.6-7.8: Remaining portal features (Sub-out, Past Gigs, Profile)
 
 **Not Started:**
 - [ ] Phase 8: Notifications
