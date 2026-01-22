@@ -413,15 +413,15 @@ Actions for managing musician active status.
 ### Phase 5.1: Gig Resource - Create (US-3.1)
 Filament resource for creating gigs.
 
-- [ ] Create `GigResource` with list, create, edit, view pages
-- [ ] Form section: Basic Info - name (required), date (required), call_time (required)
-- [ ] Form section: Times - performance_time (optional), end_time (optional)
-- [ ] Form section: Venue - venue_name (required), venue_address (required)
-- [ ] Form section: Client Contact - client_contact_name, client_contact_phone, client_contact_email
-- [ ] Form section: Details - dress_code, notes, pay_info
-- [ ] Add Select for region
-- [ ] Add Select for status (draft/active) with draft as default
-- [ ] Add SpatieMediaLibraryFileUpload for PDF attachments
+- [x] Create `GigResource` with list, create, edit, view pages
+- [x] Form section: Basic Info - name (required), date (required), call_time (required)
+- [x] Form section: Times - performance_time (optional), end_time (optional)
+- [x] Form section: Venue - venue_name (required), venue_address (required)
+- [x] Form section: Client Contact - client_contact_name, client_contact_phone, client_contact_email
+- [x] Form section: Details - dress_code, notes, pay_info
+- [x] Add Select for region
+- [x] Add Select for status (draft/active) with draft as default
+- [x] Add SpatieMediaLibraryFileUpload for PDF attachments
 
 **Tests:** `tests/Feature/Filament/GigResource/CreateGigTest.php`
 ```
@@ -445,15 +445,15 @@ Filament resource for creating gigs.
 ### Phase 5.2: Gig Resource - List View (US-3.3)
 List view with filtering and staffing status.
 
-- [ ] List columns: date, name, venue_name, region, status, staffing status (X/Y filled)
-- [ ] Add staffing status column showing accepted/total assignments
-- [ ] Add filter by date range (default: upcoming)
-- [ ] Add filter by region
-- [ ] Add filter by status (draft, active, cancelled)
-- [ ] Add filter by staffing: fully staffed, needs musicians, has pending, has sub-outs
-- [ ] Add search by name and venue_name
-- [ ] Default sort by date ascending (upcoming first)
-- [ ] Add tabs or toggle to show past gigs
+- [x] List columns: date, name, venue_name, region, status, staffing status (X/Y filled)
+- [x] Add staffing status column showing accepted/total assignments
+- [x] Add filter by date range (default: upcoming)
+- [x] Add filter by region
+- [x] Add filter by status (draft, active, cancelled)
+- [x] Add filter by staffing: fully staffed, needs musicians, has pending, has sub-outs
+- [x] Add search by name and venue_name
+- [x] Default sort by date ascending (upcoming first)
+- [x] Add tabs or toggle to show past gigs
 
 **Tests:** `tests/Feature/Filament/GigResource/ListGigsTest.php`
 ```
@@ -477,9 +477,9 @@ List view with filtering and staffing status.
 ### Phase 5.3: Gig Resource - Edit (US-3.2)
 Edit form for existing gigs.
 
-- [ ] Edit form with all gig fields
-- [ ] Allow adding/removing PDF attachments
-- [ ] Show attachment list with download links
+- [x] Edit form with all gig fields
+- [x] Allow adding/removing PDF attachments
+- [x] Show attachment list with download links
 
 **Tests:** `tests/Feature/Filament/GigResource/EditGigTest.php`
 ```
@@ -496,11 +496,11 @@ Edit form for existing gigs.
 ### Phase 5.4: Gig Resource - View Detail (US-3.4)
 View page showing complete gig details and assignments.
 
-- [ ] Display all gig information in organized sections
-- [ ] Show assignments table: musician name, instrument, status (with color), responded_at
-- [ ] Show sub-out requests prominently with reason
-- [ ] Add action buttons: add assignment, edit gig, print worksheet
-- [ ] Link musician names to their profiles
+- [x] Display all gig information in organized sections
+- [x] Show assignments table: musician name, instrument, status (with color), responded_at
+- [x] Show sub-out requests prominently with reason
+- [x] Add action buttons: add assignment, edit gig, print worksheet
+- [x] Link musician names to their profiles
 
 **Tests:** `tests/Feature/Filament/GigResource/ViewGigTest.php`
 ```
@@ -518,10 +518,10 @@ View page showing complete gig details and assignments.
 ### Phase 5.5: Gig Resource - Cancel/Delete (US-3.5)
 Actions for cancelling or deleting gigs.
 
-- [ ] Add cancel action (sets status to cancelled, requires confirmation)
-- [ ] Add delete action (soft delete, requires confirmation)
-- [ ] Cancelled gigs remain visible in list with indicator
-- [ ] Deleting gig soft-deletes associated assignments
+- [x] Add cancel action (sets status to cancelled, requires confirmation)
+- [x] Add delete action (soft delete, requires confirmation)
+- [x] Cancelled gigs remain visible in list with indicator
+- [x] Deleting gig soft-deletes associated assignments
 
 **Tests:** `tests/Feature/Filament/GigResource/CancelDeleteGigTest.php`
 ```
@@ -539,11 +539,11 @@ Actions for cancelling or deleting gigs.
 ### Phase 5.6: Gig Resource - Duplicate (US-3.6)
 Action for duplicating existing gigs.
 
-- [ ] Add replicate action on gig
-- [ ] Copy all fields except: date (cleared), status (set to draft)
-- [ ] Do NOT copy assignments
-- [ ] Copy attachments
-- [ ] Redirect to edit page for new gig
+- [x] Add replicate action on gig
+- [x] Copy all fields, status set to draft (date kept for user to update)
+- [x] Do NOT copy assignments
+- [x] Copy attachments
+- [x] Redirect to edit page for new gig
 
 **Tests:** `tests/Feature/Filament/GigResource/DuplicateGigTest.php`
 ```
@@ -1247,9 +1247,9 @@ Security audit tests.
 - [x] Phase 2: Authentication & Access Control - Middleware, role-based routing, policies
 - [x] Phase 3: Admin Panel - Lookup Tables Management - Instruments, Regions, Tags resources
 - [x] Phase 4: Admin Panel - Musician Roster Management - MusicianResource with list/create/edit, deactivate/reactivate
+- [x] Phase 5: Admin Panel - Gig Management - GigResource with list/create/edit/view, cancel/delete, duplicate
 
 **Not Started:**
-- [ ] Phase 5: Admin Panel - Gig Management
 - [ ] Phase 6: Admin Panel - Gig Staffing
 - [ ] Phase 7: Musician Portal
 - [ ] Phase 8: Notifications
