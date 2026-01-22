@@ -4,23 +4,27 @@ namespace App\Filament\Resources\Gigs\Pages;
 
 use App\Enums\AssignmentStatus;
 use App\Enums\GigStatus;
+use App\Enums\UserRole;
 use App\Filament\Resources\Gigs\GigResource;
-use App\Filament\Resources\Musicians\MusicianResource;
+use App\Models\AssignmentStatusLog;
 use App\Models\Gig;
 use App\Models\GigAssignment;
+use App\Models\Instrument;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
-use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 
 class ViewGig extends ViewRecord
 {
@@ -119,7 +123,7 @@ class ViewGig extends ViewRecord
                     ])
                     ->collapsible(),
 
-                Section::make('Assignments')
+                Section::make('Assignments Summary')
                     ->schema([
                         TextEntry::make('staffing_summary')
                             ->label('Staffing Status')
@@ -146,45 +150,107 @@ class ViewGig extends ViewRecord
 
                                 return $total === 0 ? 'No assignments' : implode(', ', $parts);
                             }),
-                        RepeatableEntry::make('assignments')
-                            ->label('')
-                            ->schema([
-                                Grid::make(5)
-                                    ->schema([
-                                        TextEntry::make('user.name')
-                                            ->label('Musician')
-                                            ->url(fn (GigAssignment $record): string => MusicianResource::getUrl('edit', ['record' => $record->user_id])),
-                                        TextEntry::make('instrument.name')
-                                            ->label('Instrument'),
-                                        TextEntry::make('status')
-                                            ->badge(),
-                                        TextEntry::make('responded_at')
-                                            ->label('Responded')
-                                            ->dateTime('M j, g:i A')
-                                            ->placeholder('—'),
-                                        Group::make([
-                                            TextEntry::make('subout_reason')
-                                                ->label('Sub-out Reason')
-                                                ->visible(fn (GigAssignment $record): bool => $record->status === AssignmentStatus::SuboutRequested)
-                                                ->color('warning'),
-                                            TextEntry::make('decline_reason')
-                                                ->label('Decline Reason')
-                                                ->visible(fn (GigAssignment $record): bool => $record->status === AssignmentStatus::Declined && $record->decline_reason !== null)
-                                                ->color('danger'),
-                                        ]),
-                                    ]),
-                            ])
-                            ->contained(false),
-                    ]),
+                    ])
+                    ->collapsible()
+                    ->collapsed(),
             ]);
     }
 
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('bulkAssign')
+                ->label('Bulk Assign')
+                ->icon(Heroicon::OutlinedUserGroup)
+                ->color('primary')
+                ->visible(fn (): bool => ! $this->record->trashed())
+                ->form([
+                    Repeater::make('assignments')
+                        ->schema([
+                            Select::make('user_id')
+                                ->label('Musician')
+                                ->required()
+                                ->searchable()
+                                ->preload()
+                                ->options(function () {
+                                    $existingUserIds = $this->record
+                                        ->assignments()
+                                        ->pluck('user_id')
+                                        ->toArray();
+
+                                    return User::query()
+                                        ->where('role', UserRole::Musician)
+                                        ->where('is_active', true)
+                                        ->when(! empty($existingUserIds), fn ($q) => $q->whereNotIn('id', $existingUserIds))
+                                        ->pluck('name', 'id');
+                                })
+                                ->distinct()
+                                ->live(),
+                            Select::make('instrument_id')
+                                ->label('Instrument')
+                                ->required()
+                                ->searchable()
+                                ->preload()
+                                ->options(Instrument::pluck('name', 'id')),
+                        ])
+                        ->columns(2)
+                        ->minItems(1)
+                        ->defaultItems(1)
+                        ->addActionLabel('Add another musician'),
+                ])
+                ->action(function (array $data): void {
+                    $existingUserIds = $this->record
+                        ->assignments()
+                        ->pluck('user_id')
+                        ->toArray();
+
+                    $created = 0;
+                    $skipped = 0;
+
+                    foreach ($data['assignments'] as $assignment) {
+                        if (in_array($assignment['user_id'], $existingUserIds)) {
+                            $skipped++;
+
+                            continue;
+                        }
+
+                        $newAssignment = GigAssignment::create([
+                            'gig_id' => $this->record->id,
+                            'user_id' => $assignment['user_id'],
+                            'instrument_id' => $assignment['instrument_id'],
+                            'status' => AssignmentStatus::Pending,
+                        ]);
+
+                        AssignmentStatusLog::create([
+                            'gig_assignment_id' => $newAssignment->id,
+                            'old_status' => null,
+                            'new_status' => AssignmentStatus::Pending->value,
+                            'reason' => 'Bulk assignment created',
+                            'changed_by_user_id' => auth()->id(),
+                            'created_at' => now(),
+                        ]);
+
+                        $existingUserIds[] = $assignment['user_id'];
+                        $created++;
+                    }
+
+                    if ($created > 0) {
+                        Notification::make()
+                            ->success()
+                            ->title('Musicians assigned')
+                            ->body("{$created} musician(s) assigned".($skipped > 0 ? ", {$skipped} skipped (already assigned)" : ''))
+                            ->send();
+                    } else {
+                        Notification::make()
+                            ->warning()
+                            ->title('No musicians assigned')
+                            ->body('All selected musicians were already assigned to this gig.')
+                            ->send();
+                    }
+                }),
             EditAction::make(),
             Action::make('cancel')
-                ->icon('heroicon-o-x-circle')
+                ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
                 ->requiresConfirmation()
                 ->modalHeading('Cancel Gig')
@@ -201,7 +267,7 @@ class ViewGig extends ViewRecord
                     $this->refreshFormData(['status']);
                 }),
             Action::make('replicate')
-                ->icon('heroicon-o-document-duplicate')
+                ->icon(Heroicon::OutlinedDocumentDuplicate)
                 ->color('gray')
                 ->label('Duplicate')
                 ->visible(fn (): bool => ! $this->record->trashed())

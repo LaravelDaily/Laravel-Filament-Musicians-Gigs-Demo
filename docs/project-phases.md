@@ -563,12 +563,12 @@ Action for duplicating existing gigs.
 ### Phase 6.1: Assignment Relation Manager (US-4.1)
 Relation manager on GigResource for managing assignments.
 
-- [ ] Create `AssignmentsRelationManager` on GigResource
-- [ ] Add assignment form: musician (select, filtered to active musicians), instrument (select), notes, pay_amount
-- [ ] Exclude already-assigned musicians from dropdown
-- [ ] Set status to 'pending' automatically
-- [ ] Show status with color badge in table
-- [ ] Show response timestamp
+- [x] Create `AssignmentsRelationManager` on GigResource
+- [x] Add assignment form: musician (select, filtered to active musicians), instrument (select), notes, pay_amount
+- [x] Exclude already-assigned musicians from dropdown
+- [x] Set status to 'pending' automatically
+- [x] Show status with color badge in table
+- [x] Show response timestamp
 
 **Tests:** `tests/Feature/Filament/GigResource/AssignmentsRelationManagerTest.php`
 ```
@@ -589,9 +589,9 @@ Relation manager on GigResource for managing assignments.
 ### Phase 6.2: Remove Assignment (US-4.2)
 Action to remove assignments from gigs.
 
-- [ ] Add delete action on assignment relation manager
-- [ ] Require confirmation before removal
-- [ ] Log removal in audit log
+- [x] Add delete action on assignment relation manager
+- [x] Require confirmation before removal
+- [x] Log removal in audit log
 
 **Tests:** `tests/Feature/Filament/GigResource/RemoveAssignmentTest.php`
 ```
@@ -606,10 +606,10 @@ Action to remove assignments from gigs.
 ### Phase 6.3: Inline Status Update (US-4.3)
 Visual indicators and quick status updates.
 
-- [ ] Color-coded status badges (pending=yellow, accepted=green, declined=red, subout=orange)
-- [ ] Show counts summary: X pending, Y accepted, Z declined, W sub-out
-- [ ] Allow admin to manually change assignment status
-- [ ] Log manual status changes in audit log
+- [x] Color-coded status badges (pending=yellow, accepted=green, declined=red, subout=orange)
+- [x] Show counts summary: X pending, Y accepted, Z declined, W sub-out
+- [x] Allow admin to manually change assignment status
+- [x] Log manual status changes in audit log
 
 **Tests:** `tests/Feature/Filament/GigResource/AssignmentStatusTest.php`
 ```
@@ -624,10 +624,10 @@ Visual indicators and quick status updates.
 ### Phase 6.4: Bulk Assign Musicians (US-4.4)
 Action for assigning multiple musicians at once.
 
-- [ ] Create bulk assign action on GigResource view page
-- [ ] Modal with: multi-select musicians, instrument for each (or shared instrument)
-- [ ] Create all assignments with 'pending' status
-- [ ] Validate no duplicates
+- [x] Create bulk assign action on GigResource view page
+- [x] Modal with: multi-select musicians, instrument for each (or shared instrument)
+- [x] Create all assignments with 'pending' status
+- [x] Validate no duplicates
 
 **Tests:** `tests/Feature/Filament/GigResource/BulkAssignTest.php`
 ```
@@ -643,11 +643,11 @@ Action for assigning multiple musicians at once.
 ### Phase 6.5: Reassign After Sub-Out (US-4.5)
 Workflow for handling sub-out requests.
 
-- [ ] Show sub-out badge on assignment with reason tooltip
-- [ ] Add "Find Replacement" action on sub-out assignment
-- [ ] Open modal showing available musicians filtered by same instrument
-- [ ] Show warning for musicians with conflicting gigs on same date
-- [ ] Can create new assignment as replacement
+- [x] Show sub-out badge on assignment with reason tooltip
+- [x] Add "Find Replacement" action on sub-out assignment
+- [x] Open modal showing available musicians filtered by same instrument
+- [x] Show warning for musicians with conflicting gigs on same date
+- [x] Can create new assignment as replacement
 
 **Tests:** `tests/Feature/Filament/GigResource/ReassignSuboutTest.php`
 ```
@@ -1248,9 +1248,9 @@ Security audit tests.
 - [x] Phase 3: Admin Panel - Lookup Tables Management - Instruments, Regions, Tags resources
 - [x] Phase 4: Admin Panel - Musician Roster Management - MusicianResource with list/create/edit, deactivate/reactivate
 - [x] Phase 5: Admin Panel - Gig Management - GigResource with list/create/edit/view, cancel/delete, duplicate
+- [x] Phase 6: Admin Panel - Gig Staffing - AssignmentsRelationManager with create/edit/delete, status updates, bulk assign, find replacement
 
 **Not Started:**
-- [ ] Phase 6: Admin Panel - Gig Staffing
 - [ ] Phase 7: Musician Portal
 - [ ] Phase 8: Notifications
 - [ ] Phase 9: Admin Tools & Reports

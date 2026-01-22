@@ -6,6 +6,7 @@ use App\Filament\Resources\Gigs\Pages\CreateGig;
 use App\Filament\Resources\Gigs\Pages\EditGig;
 use App\Filament\Resources\Gigs\Pages\ListGigs;
 use App\Filament\Resources\Gigs\Pages\ViewGig;
+use App\Filament\Resources\Gigs\RelationManagers\AssignmentsRelationManager;
 use App\Filament\Resources\Gigs\Schemas\GigForm;
 use App\Filament\Resources\Gigs\Tables\GigsTable;
 use App\Models\Gig;
@@ -52,7 +53,7 @@ class GigResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AssignmentsRelationManager::class,
         ];
     }
 

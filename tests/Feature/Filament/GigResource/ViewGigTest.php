@@ -2,7 +2,9 @@
 
 use App\Enums\AssignmentStatus;
 use App\Filament\Resources\Gigs\GigResource;
+use App\Filament\Resources\Gigs\Pages\EditGig;
 use App\Filament\Resources\Gigs\Pages\ViewGig;
+use App\Filament\Resources\Gigs\RelationManagers\AssignmentsRelationManager;
 use App\Models\Gig;
 use App\Models\GigAssignment;
 use App\Models\Instrument;
@@ -37,7 +39,7 @@ test('it displays all gig information', function () {
         ->assertSee('Important event');
 });
 
-test('it displays assignments list', function () {
+test('it displays assignments in relation manager', function () {
     $gig = Gig::factory()->create();
     $musician = User::factory()->musician()->create(['name' => 'John Musician']);
     $instrument = Instrument::factory()->create(['name' => 'Guitar']);
@@ -49,69 +51,92 @@ test('it displays assignments list', function () {
         'status' => AssignmentStatus::Pending,
     ]);
 
-    Livewire::test(ViewGig::class, ['record' => $gig->id])
+    Livewire::test(AssignmentsRelationManager::class, [
+        'ownerRecord' => $gig,
+        'pageClass' => EditGig::class,
+    ])
         ->assertSee('John Musician')
         ->assertSee('Guitar');
 });
 
-test('it shows assignment status with visual indicator', function () {
+test('it shows assignment status in relation manager', function () {
     $gig = Gig::factory()->create();
     $musician = User::factory()->musician()->create();
+    $instrument = Instrument::factory()->create();
 
     GigAssignment::factory()->create([
         'gig_id' => $gig->id,
         'user_id' => $musician->id,
+        'instrument_id' => $instrument->id,
         'status' => AssignmentStatus::Accepted,
     ]);
 
-    Livewire::test(ViewGig::class, ['record' => $gig->id])
+    Livewire::test(AssignmentsRelationManager::class, [
+        'ownerRecord' => $gig,
+        'pageClass' => EditGig::class,
+    ])
         ->assertSee('Accepted');
 });
 
-test('it highlights sub-out requests', function () {
+test('it highlights sub-out requests in relation manager', function () {
     $gig = Gig::factory()->create();
     $musician = User::factory()->musician()->create();
+    $instrument = Instrument::factory()->create();
 
     GigAssignment::factory()->create([
         'gig_id' => $gig->id,
         'user_id' => $musician->id,
+        'instrument_id' => $instrument->id,
         'status' => AssignmentStatus::SuboutRequested,
         'subout_reason' => 'Family emergency',
     ]);
 
-    Livewire::test(ViewGig::class, ['record' => $gig->id])
+    Livewire::test(AssignmentsRelationManager::class, [
+        'ownerRecord' => $gig,
+        'pageClass' => EditGig::class,
+    ])
         ->assertSee('Sub-out Requested')
         ->assertSee('Family emergency');
 });
 
-test('it shows sub-out reason', function () {
+test('it shows sub-out reason in relation manager', function () {
     $gig = Gig::factory()->create();
     $musician = User::factory()->musician()->create();
+    $instrument = Instrument::factory()->create();
 
     GigAssignment::factory()->create([
         'gig_id' => $gig->id,
         'user_id' => $musician->id,
+        'instrument_id' => $instrument->id,
         'status' => AssignmentStatus::SuboutRequested,
         'subout_reason' => 'Medical appointment',
     ]);
 
-    Livewire::test(ViewGig::class, ['record' => $gig->id])
+    Livewire::test(AssignmentsRelationManager::class, [
+        'ownerRecord' => $gig,
+        'pageClass' => EditGig::class,
+    ])
         ->assertSee('Medical appointment');
 });
 
-test('it shows response timestamps', function () {
+test('it shows response timestamps in relation manager', function () {
     $gig = Gig::factory()->create();
     $musician = User::factory()->musician()->create();
+    $instrument = Instrument::factory()->create();
 
     $respondedAt = now()->subDay();
     GigAssignment::factory()->create([
         'gig_id' => $gig->id,
         'user_id' => $musician->id,
+        'instrument_id' => $instrument->id,
         'status' => AssignmentStatus::Accepted,
         'responded_at' => $respondedAt,
     ]);
 
-    Livewire::test(ViewGig::class, ['record' => $gig->id])
+    Livewire::test(AssignmentsRelationManager::class, [
+        'ownerRecord' => $gig,
+        'pageClass' => EditGig::class,
+    ])
         ->assertSee($respondedAt->format('M j'));
 });
 
