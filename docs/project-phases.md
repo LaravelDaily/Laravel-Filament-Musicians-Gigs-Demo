@@ -665,11 +665,11 @@ Workflow for handling sub-out requests.
 ### Phase 7.1: Portal Layout & Navigation
 Create the musician portal structure using controllers and Blade views.
 
-- [ ] Create `PortalController` base controller
-- [ ] Create portal layout blade with mobile-friendly navigation
-- [ ] Add navigation: Dashboard, Past Gigs, My Profile
-- [ ] Create portal-specific CSS/styling (or use Flux components)
-- [ ] Add logout functionality
+- [x] Create `PortalController` base controller
+- [x] Create portal layout blade with mobile-friendly navigation
+- [x] Add navigation: Dashboard, Past Gigs, My Profile
+- [x] Create portal-specific CSS/styling (or use Flux components)
+- [x] Add logout functionality
 
 **Tests:** `tests/Feature/Portal/LayoutTest.php`
 ```
@@ -684,14 +684,14 @@ Create the musician portal structure using controllers and Blade views.
 ### Phase 7.2: Dashboard - Upcoming Gigs (US-5.1)
 Main dashboard showing musician's upcoming assignments.
 
-- [ ] Create `PortalDashboardController@index` returning view
-- [ ] Query upcoming gig assignments for authenticated musician
-- [ ] Display: date, day of week, call time, venue name, gig name
-- [ ] Show assignment status (pending, accepted, subout_requested)
-- [ ] Visual indicator for gigs needing response (pending status)
-- [ ] Sort by date ascending (soonest first)
-- [ ] Mobile-responsive card layout
-- [ ] Link each gig to detail page
+- [x] Create `PortalDashboardController@index` returning view
+- [x] Query upcoming gig assignments for authenticated musician
+- [x] Display: date, day of week, call time, venue name, gig name
+- [x] Show assignment status (pending, accepted, subout_requested)
+- [x] Visual indicator for gigs needing response (pending status)
+- [x] Sort by date ascending (soonest first)
+- [x] Mobile-responsive card layout
+- [x] Link each gig to detail page
 
 **Tests:** `tests/Feature/Portal/DashboardTest.php`
 ```
@@ -1250,8 +1250,13 @@ Security audit tests.
 - [x] Phase 5: Admin Panel - Gig Management - GigResource with list/create/edit/view, cancel/delete, duplicate
 - [x] Phase 6: Admin Panel - Gig Staffing - AssignmentsRelationManager with create/edit/delete, status updates, bulk assign, find replacement
 
-**Not Started:**
+**In Progress:**
 - [ ] Phase 7: Musician Portal
+  - [x] Phase 7.1: Portal Layout & Navigation
+  - [x] Phase 7.2: Dashboard - Upcoming Gigs
+  - [ ] Phase 7.3-7.8: Remaining portal features
+
+**Not Started:**
 - [ ] Phase 8: Notifications
 - [ ] Phase 9: Admin Tools & Reports
 - [ ] Phase 10: System Administration
