@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Enums\AssignmentStatus;
 use App\Enums\GigStatus;
 use App\Models\Gig;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -29,11 +30,11 @@ class NeedsAttentionWidget extends BaseWidget
         return [
             Stat::make('Pending Responses', $gigsWithPending)
                 ->description('Gigs awaiting musician response')
-                ->descriptionIcon('heroicon-m-clock')
+                ->descriptionIcon(Heroicon::Clock)
                 ->color('warning'),
             Stat::make('Sub-out Requests', $gigsWithSubouts)
                 ->description('Gigs needing replacement')
-                ->descriptionIcon('heroicon-m-arrow-path')
+                ->descriptionIcon(Heroicon::ArrowPath)
                 ->color('danger'),
         ];
     }

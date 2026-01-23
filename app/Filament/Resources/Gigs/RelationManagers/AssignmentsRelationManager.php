@@ -16,10 +16,10 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
@@ -119,7 +119,7 @@ class AssignmentsRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->mutateFormDataUsing(function (array $data): array {
+                    ->mutateDataUsing(function (array $data): array {
                         $data['status'] = AssignmentStatus::Pending;
 
                         return $data;
@@ -138,7 +138,7 @@ class AssignmentsRelationManager extends RelationManager
                     ->icon(Heroicon::OutlinedUserPlus)
                     ->color('warning')
                     ->visible(fn (GigAssignment $record): bool => $record->status === AssignmentStatus::SuboutRequested)
-                    ->form(function (?GigAssignment $record) {
+                    ->schema(function (?GigAssignment $record) {
                         if (! $record) {
                             return [];
                         }
@@ -181,36 +181,39 @@ class AssignmentsRelationManager extends RelationManager
                         })->toArray();
 
                         $components = [
-                            Placeholder::make('subout_info')
+                            TextEntry::make('subout_info')
                                 ->label('Sub-out Request')
-                                ->content(new HtmlString(
+                                ->state(new HtmlString(
                                     '<div class="text-warning-600 dark:text-warning-400">'.
                                     '<strong>'.$record->user->name.'</strong> requested a sub-out'.
                                     ($record->subout_reason ? ':<br><em>"'.e($record->subout_reason).'"</em>' : '.').
                                     '</div>'
-                                )),
-                            Placeholder::make('instrument_info')
+                                ))
+                                ->html(),
+                            TextEntry::make('instrument_info')
                                 ->label('Required Instrument')
-                                ->content($record->instrument->name),
+                                ->state($record->instrument->name),
                         ];
 
                         if (empty($options)) {
-                            $components[] = Placeholder::make('no_musicians')
-                                ->label('')
-                                ->content(new HtmlString(
+                            $components[] = TextEntry::make('no_musicians')
+                                ->hiddenLabel()
+                                ->state(new HtmlString(
                                     '<div class="text-danger-600 dark:text-danger-400">'.
                                     'No available musicians found with this instrument who are not already assigned to this gig.'.
                                     '</div>'
-                                ));
+                                ))
+                                ->html();
                         } else {
                             if (! empty($musiciansWithConflicts)) {
-                                $components[] = Placeholder::make('conflict_warning')
-                                    ->label('')
-                                    ->content(new HtmlString(
+                                $components[] = TextEntry::make('conflict_warning')
+                                    ->hiddenLabel()
+                                    ->state(new HtmlString(
                                         '<div class="text-warning-600 dark:text-warning-400 text-sm">'.
                                         '⚠️ Some musicians have other gigs scheduled on the same date.'.
                                         '</div>'
-                                    ));
+                                    ))
+                                    ->html();
                             }
 
                             $components[] = Select::make('replacement_user_id')
@@ -267,7 +270,7 @@ class AssignmentsRelationManager extends RelationManager
                 Action::make('changeStatus')
                     ->icon(Heroicon::OutlinedArrowPath)
                     ->color('gray')
-                    ->form([
+                    ->schema([
                         Select::make('status')
                             ->options(AssignmentStatus::class)
                             ->required(),

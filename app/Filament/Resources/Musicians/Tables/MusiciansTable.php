@@ -7,6 +7,7 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -67,7 +68,7 @@ class MusiciansTable
                 BulkActionGroup::make([
                     BulkAction::make('deactivate')
                         ->label('Deactivate')
-                        ->icon('heroicon-o-x-circle')
+                        ->icon(Heroicon::OutlinedXCircle)
                         ->color('danger')
                         ->requiresConfirmation()
                         ->action(function (Collection $records): void {
@@ -82,7 +83,7 @@ class MusiciansTable
                         ->deselectRecordsAfterCompletion(),
                     BulkAction::make('activate')
                         ->label('Activate')
-                        ->icon('heroicon-o-check-circle')
+                        ->icon(Heroicon::OutlinedCheckCircle)
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (Collection $records): void {

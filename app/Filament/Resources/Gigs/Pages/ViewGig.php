@@ -164,7 +164,7 @@ class ViewGig extends ViewRecord
                 ->icon(Heroicon::OutlinedUserGroup)
                 ->color('primary')
                 ->visible(fn (): bool => ! $this->record->trashed())
-                ->form([
+                ->schema([
                     Repeater::make('assignments')
                         ->schema([
                             Select::make('user_id')

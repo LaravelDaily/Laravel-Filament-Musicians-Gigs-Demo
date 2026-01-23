@@ -11,6 +11,7 @@ use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 class EditGig extends EditRecord
 {
@@ -21,7 +22,7 @@ class EditGig extends EditRecord
         return [
             ViewAction::make(),
             Action::make('cancel')
-                ->icon('heroicon-o-x-circle')
+                ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
                 ->requiresConfirmation()
                 ->modalHeading('Cancel Gig')
@@ -39,7 +40,7 @@ class EditGig extends EditRecord
                     $this->refreshFormData(['status']);
                 }),
             Action::make('replicate')
-                ->icon('heroicon-o-document-duplicate')
+                ->icon(Heroicon::OutlinedDocumentDuplicate)
                 ->color('gray')
                 ->label('Duplicate')
                 ->visible(fn (): bool => ! $this->record->trashed())

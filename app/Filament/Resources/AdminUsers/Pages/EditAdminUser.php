@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 class EditAdminUser extends EditRecord
 {
@@ -18,7 +19,7 @@ class EditAdminUser extends EditRecord
         return [
             Action::make('toggle_active')
                 ->label(fn (): string => $this->record->is_active ? 'Deactivate' : 'Activate')
-                ->icon(fn (): string => $this->record->is_active ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                ->icon(fn (): Heroicon => $this->record->is_active ? Heroicon::OutlinedXCircle : Heroicon::OutlinedCheckCircle)
                 ->color(fn (): string => $this->record->is_active ? 'danger' : 'success')
                 ->requiresConfirmation()
                 ->modalHeading(fn (): string => $this->record->is_active ? 'Deactivate Admin User' : 'Activate Admin User')

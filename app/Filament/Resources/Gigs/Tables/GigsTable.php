@@ -14,6 +14,7 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -89,7 +90,7 @@ class GigsTable
                     ->query(fn (Builder $query): Builder => $query->where('date', '>=', now()->toDateString()))
                     ->default(),
                 Filter::make('date_range')
-                    ->form([
+                    ->schema([
                         \Filament\Forms\Components\DatePicker::make('from')
                             ->label('From Date'),
                         \Filament\Forms\Components\DatePicker::make('until')
@@ -138,7 +139,7 @@ class GigsTable
                 ViewAction::make(),
                 EditAction::make(),
                 Action::make('cancel')
-                    ->icon('heroicon-o-x-circle')
+                    ->icon(Heroicon::OutlinedXCircle)
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Cancel Gig')
@@ -154,7 +155,7 @@ class GigsTable
                             ->send();
                     }),
                 Action::make('replicate')
-                    ->icon('heroicon-o-document-duplicate')
+                    ->icon(Heroicon::OutlinedDocumentDuplicate)
                     ->color('gray')
                     ->visible(fn (Gig $record): bool => ! $record->trashed())
                     ->action(function (Gig $record): void {

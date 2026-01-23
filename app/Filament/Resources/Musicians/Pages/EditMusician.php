@@ -7,6 +7,7 @@ use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 class EditMusician extends EditRecord
 {
@@ -17,7 +18,7 @@ class EditMusician extends EditRecord
         return [
             Action::make('toggle_active')
                 ->label(fn (): string => $this->record->is_active ? 'Deactivate' : 'Activate')
-                ->icon(fn (): string => $this->record->is_active ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                ->icon(fn (): Heroicon => $this->record->is_active ? Heroicon::OutlinedXCircle : Heroicon::OutlinedCheckCircle)
                 ->color(fn (): string => $this->record->is_active ? 'danger' : 'success')
                 ->requiresConfirmation()
                 ->modalHeading(fn (): string => $this->record->is_active ? 'Deactivate Musician' : 'Activate Musician')

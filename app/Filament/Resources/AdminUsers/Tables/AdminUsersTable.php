@@ -7,6 +7,7 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
@@ -50,7 +51,7 @@ class AdminUsersTable
                 BulkActionGroup::make([
                     BulkAction::make('deactivate')
                         ->label('Deactivate')
-                        ->icon('heroicon-o-x-circle')
+                        ->icon(Heroicon::OutlinedXCircle)
                         ->color('danger')
                         ->requiresConfirmation()
                         ->modalDescription('Are you sure you want to deactivate the selected admin users? They will no longer be able to access the admin panel.')
@@ -92,7 +93,7 @@ class AdminUsersTable
                         ->deselectRecordsAfterCompletion(),
                     BulkAction::make('activate')
                         ->label('Activate')
-                        ->icon('heroicon-o-check-circle')
+                        ->icon(Heroicon::OutlinedCheckCircle)
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (Collection $records): void {
